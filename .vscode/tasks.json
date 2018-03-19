@@ -2,15 +2,9 @@
     "version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Date",
+			"label": "Test",
 			"type": "shell",
-			"command": "g++",
-			"args": [
-				"-std=c++11",
-				"*.cpp",
-				"-o",
-				"Date",
-			],
+			"command": "${workspaceRoot}/Test.bat",
 			"group": {
 				"kind": "build",
 				"isDefault": true

@@ -1,0 +1,1 @@
+cd C:\Users\132\Desktop\baranov_labs\1.1 && python C:\cxxtest-4.3\bin\cxxtestgen --error-printer -o runner.cpp DateTest.h && g++ -o runner -I$CXXTEST *.cpp -I C:\cxxtest-4.3 && C:\Users\132\Desktop\baranov_labs\1.1\runner.exe
