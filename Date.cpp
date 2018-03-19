@@ -23,7 +23,7 @@ bool Date::IsCorrectDate(int newDay, int newMonth, int newYear)
 		throw "Incorrect month";
 	}
 
-	if (newMonth == 2 && newDay > 29 - IsLeapYear(newYear))
+	if (newMonth == 2 && newDay > 28 + IsLeapYear(newYear))
 	{
 		throw "Incorrect february day";
 	}
@@ -50,7 +50,11 @@ Date::Date(std::string str)
 	int newYear;
 	for (unsigned int i = 0, j = 0; i < dateFormat.length(); i++, j++)
 	{
-		if (dateFormat[i] != '%') continue;
+		if (dateFormat[i] != '%')
+		{
+			if (dateFormat[i] != str[j]) throw "String doesn't match date format";
+			continue;
+		}
 		i++;
 		if (dateFormat[i] == 'd')
 		{
@@ -107,9 +111,9 @@ std::string Date::ToString()
 		{
 			switch (c)
 			{
-				case 'd': str << day; break;
-				case 'm': str << month; break;
-				case 'y': str << year; break;
+				case 'd': str << (day < 10 ? "0" : "") << day; break;
+				case 'm': str << (month < 10 ? "0" : "") << month; break;
+				case 'y': str << (year < 10 ? "000" : year < 100 ? "00" : year < 1000 ? "0" : "") << year; break;
 				default: throw "Incorrect Date Format";
 			}
 			flag = 0;
