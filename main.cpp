@@ -4,13 +4,15 @@ int main()
 {
 	try {
 		// Setting Date Format
-		Date::SetDateFormat("NATA HUI: %d-%m-%y");
+		Date::SetDateFormat("%d-%m-%y");
 
 		// Default constructor
 		Date* d = new Date(25,11,2020);
+		Date autoDate(2, 10, 2000);
+		std::cout << &autoDate << std::endl;
 
 		// Create date from string acording to date format
-		Date* dateFromString = new Date("NATA HUI: 15-11-1998");
+		Date* dateFromString = new Date("15-11-1998");
 
 		std::cout << "Convert date to string:" << std::endl;
 		std::cout << d << std::endl;
