@@ -74,6 +74,27 @@ Date::Date(std::string str)
 		year = newYear;
 	}
 }
+int Date::GetYear()
+{
+	return year;
+}
+int Date::GetMonth()
+{
+	return month;
+}
+int Date::GetDay()
+{
+	return day;
+}
+void Date::SetDate(int newDay, int newMonth, int newYear)
+{
+	if (Date::IsCorrectDate(newDay, newMonth, newYear))
+	{
+		day = newDay;
+		month = newMonth;
+		year = newYear;
+	}
+}
 std::string Date::ToString()
 {
 	std::stringstream str;

@@ -15,6 +15,10 @@ private:
 public:
     Date(int, int, int);
 	Date(std::string);
+	int GetYear();
+	int GetMonth();
+	int GetDay();
+	void SetDate(int, int, int);
     std::string ToString();
     bool IsLeapYear();
     int GetDayNumber();
