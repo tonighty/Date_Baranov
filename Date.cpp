@@ -23,7 +23,7 @@ bool Date::IsCorrectDate(int newDay, int newMonth, int newYear)
 		throw "Incorrect month";
 	}
 
-	if (newMonth == 2 && newDay > 29 - IsLeapYear(newYear))
+	if (newMonth == 2 && newDay > 28 + IsLeapYear(newYear))
 	{
 		throw "Incorrect february day";
 	}
@@ -50,7 +50,11 @@ Date::Date(std::string str)
 	int newYear;
 	for (unsigned int i = 0, j = 0; i < dateFormat.length(); i++, j++)
 	{
-		if (dateFormat[i] != '%') continue;
+		if (dateFormat[i] != '%')
+		{
+			if (dateFormat[i] != str[j]) throw "String doesn't match date format";
+			continue;
+		}
 		i++;
 		if (dateFormat[i] == 'd')
 		{
@@ -88,7 +92,7 @@ int Date::GetDay()
 }
 void Date::SetDate(int newDay, int newMonth, int newYear)
 {
-	if (Date::IsCorrectDate(newDay, newMonth, newYear))
+	if (IsCorrectDate(newDay, newMonth, newYear))
 	{
 		day = newDay;
 		month = newMonth;
@@ -107,9 +111,9 @@ std::string Date::ToString()
 		{
 			switch (c)
 			{
-				case 'd': str << day; break;
-				case 'm': str << month; break;
-				case 'y': str << year; break;
+				case 'd': str << (day < 10 ? "0" : "") << day; break;
+				case 'm': str << (month < 10 ? "0" : "") << month; break;
+				case 'y': str << (year < 10 ? "000" : year < 100 ? "00" : year < 1000 ? "0" : "") << year; break;
 				default: throw "Incorrect Date Format";
 			}
 			flag = 0;
@@ -130,7 +134,7 @@ bool Date::IsLeapYear()
 {
 	return IsLeapYear(year);
 }
-int Date::GetDayNumber()
+int Date::DateToJDN()
 {
 	int a = (14 - month) / 12;
 	int y = year + 4800 - a;
@@ -139,30 +143,27 @@ int Date::GetDayNumber()
 }
 int Date::GetDateDiff(Date* d2)
 {
-	return this->GetDayNumber() - d2->GetDayNumber();
+	return this->DateToJDN() - d2->DateToJDN();
 }
-int Date::GetDayNumberOfWeek()
+int Date::DateToJDNOfWeek()
 {
-	int a = (14 - month) / 12;
-	int y = year - a;
-	int m = month + 12 * a - 2;
-	return (day + y + y / 4 - y / 100 + y / 400 + (31 * m) / 12) % 7;
+	return DateToJDN() % 7;
 }
 Date::operator std::string()
 {
-	return Date::ToString();
+	return ToString();
 }
 void Date::SetDateFormat(std::string str)
 {
 	dateFormat = str;
 }
-std::ostream& operator <<(std::ostream& os, Date* d)
+std::ostream& operator <<(std::ostream& os, Date& d)
 {
-	return os << d->ToString();
+	return os << d.ToString();
 }
-Date* Date::JDNToDate(int days)
+Date Date::JDNToDate(int days)
 {
-	int JDN = this->GetDayNumber() + days;
+	int JDN = days;
 	int a = JDN + 32044;
 	int b = (4 * a + 3) / 146097;
 	int c = a - 146097 * b / 4;
@@ -170,25 +171,29 @@ Date* Date::JDNToDate(int days)
 	int e = c - 1461 * d / 4;
 	int m = (5 * e + 2) / 153;
 
-	this->day = e - (153 * m + 2) / 5 + 1;
-	this->month = m + 3 - 12 * (m / 10);
-	this->year = 100 * b + d - 4800 + m / 10;
+	int day = e - (153 * m + 2) / 5 + 1;
+	int month = m + 3 - 12 * (m / 10);
+	int year = 100 * b + d - 4800 + m / 10;
 
-	return this;
+	return Date(day, month, year);
 }
-Date* Date::Add(int days)
+const Date operator+ (Date& d, int days)
 {
-	return Date::JDNToDate(days);
+	return Date::JDNToDate(d.DateToJDN() + days);
 }
-Date* Date::Sub(int days)
+const Date operator- (Date& d, int days)
 {
-	return Date::JDNToDate(-days);
+	return Date::JDNToDate(d.DateToJDN() - days);
 }
-Date* Date::operator+ (int days)
+Date& Date::operator+= (int days)
 {
-	return Add(days);
+	return *this = *this + days;
 }
-Date* Date::operator- (int days)
+Date& Date::operator= (const Date& d)
 {
-	return Date::Sub(days);
+	this->day = d.day;
+	this->month = d.month;
+	this->year = d.year;
+
+	return *this;
 }
