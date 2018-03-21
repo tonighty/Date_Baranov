@@ -6,9 +6,12 @@ std::string Date::dateFormat = "%d.%m.%y";
 bool Date::IsLeapYear(int year)
 {
 	bool res = false;
-	if (year % 4 == 0) res = true;
-	if (year % 100 == 0) res = false;
-	if (year % 400 == 0) res = true;
+	if (year % 4 == 0)
+		res = true;
+	if (year % 100 == 0)
+		res = false;
+	if (year % 400 == 0)
+		res = true;
 	return res;
 }
 bool Date::IsCorrectDate(int newDay, int newMonth, int newYear)
@@ -52,7 +55,8 @@ Date::Date(std::string str)
 	{
 		if (dateFormat[i] != '%')
 		{
-			if (dateFormat[i] != str[j]) throw "String doesn't match date format";
+			if (dateFormat[i] != str[j])
+				throw "String doesn't match date format";
 			continue;
 		}
 		i++;
@@ -69,7 +73,8 @@ Date::Date(std::string str)
 			newYear = std::stoi(str.substr(j, 4));
 			j += 3;
 		}
-		else throw "String doesn't match Date Format";
+		else
+			throw "String doesn't match Date Format";
 	}
 	if (IsCorrectDate(newDay, newMonth, newYear))
 	{
@@ -111,10 +116,17 @@ std::string Date::ToString()
 		{
 			switch (c)
 			{
-				case 'd': str << (day < 10 ? "0" : "") << day; break;
-				case 'm': str << (month < 10 ? "0" : "") << month; break;
-				case 'y': str << (year < 10 ? "000" : year < 100 ? "00" : year < 1000 ? "0" : "") << year; break;
-				default: throw "Incorrect Date Format";
+			case 'd':
+				str << (day < 10 ? "0" : "") << day;
+				break;
+			case 'm':
+				str << (month < 10 ? "0" : "") << month;
+				break;
+			case 'y':
+				str << (year < 10 ? "000" : year < 100 ? "00" : year < 1000 ? "0" : "") << year;
+				break;
+			default:
+				throw "Incorrect Date Format";
 			}
 			flag = 0;
 			continue;
@@ -141,7 +153,7 @@ int Date::DateToJDN()
 	int m = month + 12 * a - 3;
 	return day + (153 * m + 2) / 5 + 365 * y + y / 4 - y / 100 + y / 400 - 32045;
 }
-int Date::GetDateDiff(Date* d2)
+int Date::GetDateDiff(Date *d2)
 {
 	return this->DateToJDN() - d2->DateToJDN();
 }
@@ -157,7 +169,7 @@ void Date::SetDateFormat(std::string str)
 {
 	dateFormat = str;
 }
-std::ostream& operator <<(std::ostream& os, Date& d)
+std::ostream &operator<<(std::ostream &os, Date &d)
 {
 	return os << d.ToString();
 }
@@ -177,19 +189,19 @@ Date Date::JDNToDate(int days)
 
 	return Date(day, month, year);
 }
-const Date operator+ (Date& d, int days)
+const Date operator+(Date &d, int days)
 {
 	return Date::JDNToDate(d.DateToJDN() + days);
 }
-const Date operator- (Date& d, int days)
+const Date operator-(Date &d, int days)
 {
 	return Date::JDNToDate(d.DateToJDN() - days);
 }
-Date& Date::operator+= (int days)
+Date &Date::operator+=(int days)
 {
 	return *this = *this + days;
 }
-Date& Date::operator= (const Date& d)
+Date &Date::operator=(const Date &d)
 {
 	this->day = d.day;
 	this->month = d.month;

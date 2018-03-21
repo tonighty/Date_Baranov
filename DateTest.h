@@ -3,12 +3,12 @@
 
 class DateTest : public CxxTest::TestSuite
 {
-public:
-    void testLeapYear(void)
-    {
+  public:
+	void testLeapYear(void)
+	{
 		TS_TRACE("Starting leap year test");
-		Date* date = new Date(10, 10, 2000);
-        for (int i = 0; i < 100; i += 4)
+		Date *date = new Date(10, 10, 2000);
+		for (int i = 0; i < 100; i += 4)
 		{
 			TS_ASSERT_EQUALS(date->IsLeapYear(), 1);
 			date->SetDate(10, 10, 2000 + i);
@@ -22,17 +22,17 @@ public:
 		TS_ASSERT_EQUALS(date->IsLeapYear(), 0);
 		delete date;
 		TS_TRACE("Finishing leap year test");
-    }
+	}
 	void testCorrectDate(void)
 	{
 		TS_TRACE("Starting correct date test");
-		Date* date = new Date(1, 1, 1);
+		Date *date = new Date(1, 1, 1);
 		TS_ASSERT_THROWS_ANYTHING(date->SetDate(20, 13, 2010));
-		TS_ASSERT_THROWS_ANYTHING(date->SetDate(32,1,2010));
-		TS_ASSERT_THROWS_ANYTHING(date->SetDate(29,2,2010));
-		TS_ASSERT_THROWS_ANYTHING(date->SetDate(10,20,2010));
-		TS_ASSERT_THROWS_ANYTHING(date->SetDate(0,0,0));
-		TS_ASSERT_THROWS_ANYTHING(date->SetDate(31,4,2010));
+		TS_ASSERT_THROWS_ANYTHING(date->SetDate(32, 1, 2010));
+		TS_ASSERT_THROWS_ANYTHING(date->SetDate(29, 2, 2010));
+		TS_ASSERT_THROWS_ANYTHING(date->SetDate(10, 20, 2010));
+		TS_ASSERT_THROWS_ANYTHING(date->SetDate(0, 0, 0));
+		TS_ASSERT_THROWS_ANYTHING(date->SetDate(31, 4, 2010));
 		delete date;
 		TS_TRACE("Finishing correct date test");
 	}
