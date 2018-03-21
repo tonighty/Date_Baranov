@@ -21,17 +21,17 @@ public:
 	void SetDate(int, int, int);
     std::string ToString();
     bool IsLeapYear();
-    int GetDayNumber();
+    int DateToJDN();
     int GetDateDiff(Date* d2);
-    int GetDayNumberOfWeek();
+    int DateToJDNOfWeek();
     operator std::string();
     static void SetDateFormat(std::string str);
-    friend std::ostream& operator<< (std::ostream&, Date*);
-    Date* JDNToDate(int);
-    Date* Add(int);
-    Date* Sub(int);
-    Date* operator+ (int);
-    Date* operator- (int);
+    friend std::ostream& operator<< (std::ostream&, Date&);
+    static Date JDNToDate(int);
+    friend const Date operator+ (Date&, int);
+    friend const Date operator- (Date&, int);
+	Date& operator+= (int);
+	Date& operator= (const Date&);
 };
 
 #endif // DATE_H_INCLUDED
