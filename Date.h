@@ -20,6 +20,7 @@ class Date
 	int GetMonth();
 	int GetDay();
 	void SetDate(int, int, int);
+	void SetDate(std::string);
 	std::string ToString();
 	bool IsLeapYear();
 	int DateToJDN();
@@ -28,6 +29,7 @@ class Date
 	operator std::string();
 	static void SetDateFormat(std::string str);
 	friend std::ostream &operator<<(std::ostream &, Date &);
+	friend std::istream &operator>>(std::istream &, Date &);
 	static Date JDNToDate(int);
 	friend const Date operator+(Date &, int);
 	friend const Date operator-(Date &, int);

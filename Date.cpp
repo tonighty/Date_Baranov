@@ -104,6 +104,44 @@ void Date::SetDate(int newDay, int newMonth, int newYear)
 		year = newYear;
 	}
 }
+void Date::SetDate(std::string str)
+{
+	int flag = 0;
+	int newDay;
+	int newMonth;
+	int newYear;
+	for (unsigned int i = 0, j = 0; i < dateFormat.length(); i++, j++)
+	{
+		if (dateFormat[i] != '%')
+		{
+			if (dateFormat[i] != str[j])
+				throw "String doesn't match date format";
+			continue;
+		}
+		i++;
+		if (dateFormat[i] == 'd')
+		{
+			newDay = std::stoi(str.substr(j++, 2));
+		}
+		else if (dateFormat[i] == 'm')
+		{
+			newMonth = std::stoi(str.substr(j++, 2));
+		}
+		else if (dateFormat[i] == 'y')
+		{
+			newYear = std::stoi(str.substr(j, 4));
+			j += 3;
+		}
+		else
+			throw "String doesn't match Date Format";
+	}
+	if (IsCorrectDate(newDay, newMonth, newYear))
+	{
+		day = newDay;
+		month = newMonth;
+		year = newYear;
+	}
+}
 std::string Date::ToString()
 {
 	std::stringstream str;
@@ -172,6 +210,13 @@ void Date::SetDateFormat(std::string str)
 std::ostream &operator<<(std::ostream &os, Date &d)
 {
 	return os << d.ToString();
+}
+std::istream &operator>>(std::istream &is, Date &d)
+{
+	std::string str;
+	is >> str;
+	d.SetDate(str);
+	return is;
 }
 Date Date::JDNToDate(int days)
 {

@@ -56,13 +56,13 @@ class DateTest : public CxxTest::TestSuite
 	}
 	void testDateToJDN(void)
 	{
-		TS_TRACE("Starting get day number test");
+		TS_TRACE("Starting day number test");
 		Date d(19, 03, 2018);
 		for (int i = 1; i < 100; i++)
 		{
 			d += 1;
 			TS_ASSERT_EQUALS(d.DateToJDN(), 2458197 + i);
 		}
-		TS_TRACE("Finishing get day number test");
+		TS_TRACE("Finishing day number test");
 	}
 };
